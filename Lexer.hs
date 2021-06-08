@@ -4,6 +4,7 @@ module Lexer (
 ) where
 
 import Data.Char ( isDigit, isSpace )
+import Control.Exception
 
 data Token = Plus | Minus | Multiply | Divide | LParen | RParen | Number Double
     deriving (Show, Eq)
@@ -19,7 +20,7 @@ lexer (')':xs) = RParen : lexer xs
 lexer (x:xs)
     | isSpace x = lexer xs
     | x == '.' || isDigit x = numToken : lexer rest
-    | otherwise = error ("illegal character: " ++ [x])
+    | otherwise = throw (PatternMatchFail ("illegal character: " ++ [x]))
     where (numToken, rest) = tokenizeNum [x] xs
 
 tokenizeNum :: String  -> String -> (Token, String)

@@ -2,9 +2,10 @@ module Main (
     main
 ) where
 
+import Control.Exception ( try, SomeException (SomeException) )
 import Lexer ( lexer )
 import Parser ( shuntingYard )
-import Control.Exception ( try, SomeException (SomeException) )
+import Interpreter ( interpret )
 
 loop :: IO ()
 loop = do
@@ -14,7 +15,7 @@ loop = do
     let tokens = lexer txt
     if null tokens
         then loop
-        else print (shuntingYard tokens)
+        else print (interpret (shuntingYard tokens))
     loop) :: IO (Either SomeException ())
     case res of
         Left e -> do

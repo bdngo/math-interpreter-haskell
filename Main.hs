@@ -3,25 +3,30 @@ module Main (
 ) where
 
 import Control.Exception ( try, SomeException (SomeException) )
+import System.Environment ( getArgs )
 import Lexer ( lexer )
 import Parser ( shuntingYard )
 import Interpreter ( interpret )
 
-loop :: IO ()
-loop = do
+loop :: Bool -> IO ()
+loop pf = do
     res <- try (do
     putStr "calc > "
     txt <- getLine
     let tokens = lexer txt
     if null tokens
-        then loop
-        else print $ interpret $ shuntingYard tokens
-    loop) :: IO (Either SomeException ())
+        then loop pf
+        else if pf
+            then print $ interpret tokens
+            else print $ interpret $ shuntingYard tokens
+    loop pf) :: IO (Either SomeException ())
     case res of
         Left e -> do
             print e
-            loop
-        Right _ -> loop
+            loop pf
+        Right _ -> loop pf
 
 main :: IO ()
-main = loop
+main = do
+    argv <- getArgs
+    loop ("--postfix" `elem` argv)

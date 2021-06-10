@@ -1,6 +1,6 @@
 module Parser ( shuntingYard ) where
 
-import Lexer ( Token (..) )
+import Lexer ( Token(..) )
 
 shuntingYard :: [Token] -> [Token]
 shuntingYard ts = pf ++ op

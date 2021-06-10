@@ -4,6 +4,7 @@ module Main (
 
 import Control.Exception ( try, SomeException (SomeException) )
 import System.Environment ( getArgs )
+import System.IO ( stdout, hSetBuffering, BufferMode(NoBuffering) )
 import Lexer ( lexer )
 import Parser ( shuntingYard )
 import Interpreter ( interpret )
@@ -28,5 +29,6 @@ loop pf = do
 
 main :: IO ()
 main = do
+    hSetBuffering stdout NoBuffering -- hack for IO
     argv <- getArgs
     loop ("--postfix" `elem` argv)

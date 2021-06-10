@@ -4,7 +4,7 @@ module Interpreter (
 
 import Data.Function ( on )
 import Parser ( shuntingYard )
-import Lexer ( Token (..) )
+import Lexer ( Token(..) )
 
 interpret :: [Token] -> Token
 interpret = head . foldl foldFunc []

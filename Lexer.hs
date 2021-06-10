@@ -1,5 +1,5 @@
 module Lexer (
-    Token (..),
+    Token(..),
     lexer
 ) where
 

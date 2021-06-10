@@ -1,17 +1,5 @@
 module Lexer (
-    Token (
-        Plus,
-        Minus,
-        Multiply,
-        Divide,
-        Modulo,
-        Power,
-        LParen,
-        RParen,
-        Number
-    ),
-    Operator,
-    isOperator,
+    Token (..),
     lexer
 ) where
 
@@ -29,13 +17,6 @@ data Token = Plus
     | RParen
     | Number Double
     deriving (Show, Eq)
-
-class Operator a where
-    isOperator :: a -> Bool
-
-instance Operator Token where
-    isOperator (Number _) = False
-    isOperator _ = True
 
 lexer :: String -> [Token]
 lexer [] = []

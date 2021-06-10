@@ -1,26 +1,12 @@
 module Parser ( shuntingYard ) where
 
-import Debug.Trace ( trace )
-import Lexer (
-        Token (
-            Plus,
-            Minus,
-            Multiply,
-            Divide,
-            Modulo,
-            Power,
-            LParen,
-            RParen,
-            Number
-        )
-    )
+import Lexer ( Token (..) )
 
 shuntingYard :: [Token] -> [Token]
 shuntingYard ts = pf ++ op
     where (op, pf) = syHelper [] [] ts
 
 syHelper :: [Token] -> [Token] -> [Token] -> ([Token], [Token])
--- syHelper a b c | trace (show a ++ " " ++ show b ++ " " ++ show c) False = undefined
 syHelper op pf [] = (op, pf)
 syHelper op pf (Number n:ts) = syHelper op (pf ++ [Number n]) ts
 syHelper op pf (LParen:ts) = syHelper (LParen:op) pf ts

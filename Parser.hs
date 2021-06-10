@@ -1,18 +1,19 @@
 module Parser ( shuntingYard ) where
 
 import Debug.Trace ( trace )
-
-import Lexer ( Token (
-        Plus,
-        Minus,
-        Multiply,
-        Divide,
-        Modulo,
-        Power,
-        LParen,
-        RParen,
-        Number
-    ) )
+import Lexer (
+        Token (
+            Plus,
+            Minus,
+            Multiply,
+            Divide,
+            Modulo,
+            Power,
+            LParen,
+            RParen,
+            Number
+        )
+    )
 
 shuntingYard :: [Token] -> [Token]
 shuntingYard ts = pf ++ op

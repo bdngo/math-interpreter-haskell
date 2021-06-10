@@ -3,7 +3,7 @@ module Main (
 ) where
 
 import Lexer ( lexer )
-import Control.Exception ( try, PatternMatchFail )
+import Control.Exception ( try, SomeException (SomeException) )
 
 loop :: IO ()
 loop = do
@@ -14,7 +14,7 @@ loop = do
     if null tokens
         then loop
         else print tokens
-    loop) :: IO (Either PatternMatchFail ())
+    loop) :: IO (Either SomeException ())
     case res of
         Left e -> do
             print e

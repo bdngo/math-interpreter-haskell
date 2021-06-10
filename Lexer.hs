@@ -1,22 +1,33 @@
 module Lexer (
-    Token,
+    Token (Plus, Minus, Multiply, Divide, LParen, RParen, Number),
     lexer
 ) where
 
 import Data.Char ( isDigit, isSpace )
 import Control.Exception
+    ( throw, PatternMatchFail(PatternMatchFail) )
 
-data Token = Plus | Minus | Multiply | Divide | LParen | RParen | Number Double
+data Token = Plus
+    | Minus
+    | Multiply
+    | Divide
+    | Modulo
+    | Power
+    | LParen
+    | RParen
+    | Number Double
     deriving (Show, Eq)
 
 lexer :: String -> [Token]
 lexer [] = []
-lexer ('+':xs) = Plus : lexer xs
-lexer ('-':xs) = Minus : lexer xs
+lexer ('+':xs) = Plus     : lexer xs
+lexer ('-':xs) = Minus    : lexer xs
 lexer ('*':xs) = Multiply : lexer xs
-lexer ('/':xs) = Divide : lexer xs
-lexer ('(':xs) = LParen : lexer xs
-lexer (')':xs) = RParen : lexer xs
+lexer ('/':xs) = Divide   : lexer xs
+lexer ('%':xs) = Modulo   : lexer xs
+lexer ('^':xs) = Power    : lexer xs
+lexer ('(':xs) = LParen   : lexer xs
+lexer (')':xs) = RParen   : lexer xs
 lexer (x:xs)
     | isSpace x = lexer xs
     | x == '.' || isDigit x = numToken : lexer rest

@@ -1,5 +1,15 @@
 module Lexer (
-    Token (Plus, Minus, Multiply, Divide, LParen, RParen, Number),
+    Token (
+        Plus,
+        Minus,
+        Multiply,
+        Divide,
+        Modulo,
+        Power,
+        LParen,
+        RParen,
+        Number
+    ),
     lexer
 ) where
 

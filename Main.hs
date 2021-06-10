@@ -15,7 +15,7 @@ loop = do
     let tokens = lexer txt
     if null tokens
         then loop
-        else print (interpret (shuntingYard tokens))
+        else print $ interpret $ shuntingYard tokens
     loop) :: IO (Either SomeException ())
     case res of
         Left e -> do

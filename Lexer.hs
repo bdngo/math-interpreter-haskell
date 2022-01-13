@@ -7,27 +7,27 @@ import Data.Char ( isDigit, isSpace )
 import Control.Exception
     ( throw, PatternMatchFail(PatternMatchFail) )
 
-data Token = Plus
-    | Minus
-    | Multiply
-    | Divide
-    | Modulo
-    | Power
-    | LParen
-    | RParen
-    | Number Double
+data Token = PLUS
+    | MINUS
+    | MULTIPLY
+    | DIVIDE
+    | MODULO
+    | POWER
+    | LPAREN
+    | RPAREN
+    | NUMBER Double
     deriving (Show, Eq)
 
 lexer :: String -> [Token]
 lexer [] = []
-lexer ('+':xs) = Plus     : lexer xs
-lexer ('-':xs) = Minus    : lexer xs
-lexer ('*':xs) = Multiply : lexer xs
-lexer ('/':xs) = Divide   : lexer xs
-lexer ('%':xs) = Modulo   : lexer xs
-lexer ('^':xs) = Power    : lexer xs
-lexer ('(':xs) = LParen   : lexer xs
-lexer (')':xs) = RParen   : lexer xs
+lexer ('+':xs) = PLUS     : lexer xs
+lexer ('-':xs) = MINUS    : lexer xs
+lexer ('*':xs) = MULTIPLY : lexer xs
+lexer ('/':xs) = DIVIDE   : lexer xs
+lexer ('%':xs) = MODULO   : lexer xs
+lexer ('^':xs) = POWER    : lexer xs
+lexer ('(':xs) = LPAREN   : lexer xs
+lexer (')':xs) = RPAREN   : lexer xs
 lexer (x:xs)
     | isSpace x = lexer xs
     | x == '.' || isDigit x = numToken : lexer rest
@@ -35,11 +35,11 @@ lexer (x:xs)
     where (numToken, rest) = tokenizeNum [x] xs
 
 tokenizeNum :: String  -> String -> (Token, String)
-tokenizeNum s [] = (Number (read (addZero s)), [])
+tokenizeNum s [] = (NUMBER (read (addZero s)), [])
 tokenizeNum s (x:xs)
-    | x == '.' && '.' `elem` s = (Number (read (addZero s)), xs)
+    | x == '.' && '.' `elem` s = (NUMBER (read (addZero s)), xs)
     | isDigit x || (x == '.' && '.' `notElem` s) = tokenizeNum (s ++ [x]) xs
-    | otherwise = (Number (read (addZero s)), x:xs)
+    | otherwise = (NUMBER (read (addZero s)), x:xs)
 
 addZero :: String -> String
 addZero ('.':xs) = '0':'.':xs
